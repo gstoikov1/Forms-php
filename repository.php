@@ -7,14 +7,14 @@ class Repository
 {
     private function __construct() {
     }
-    public static function getFormById(int $id): array|false
+    public static function getFormById(int $id): array|null
     {
         $pdo = db();
 
         $stmtForm = $pdo->prepare("SELECT id, name, owner_id, requires_code, code FROM forms WHERE id = ? LIMIT 1");
         $stmtForm->execute([$id]);
         $form = $stmtForm->fetch();
-        if (!$form) return false;
+        if (!$form) return null;
 
         $stmtQuestions = $pdo->prepare("SELECT id, question_text, question_type, question_order FROM questions WHERE form_id = ? ORDER BY question_order ASC");
         $stmtQuestions->execute([$id]);

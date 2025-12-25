@@ -24,3 +24,11 @@ function require_login_json(): int {
   }
   return (int)$_SESSION['user_id'];
 }
+
+function hasFormAccess(int $formId): bool {
+    return !empty($_SESSION['form_access'][$formId]);
+}
+
+function grantFormAccess(int $formId): void {
+    $_SESSION['form_access'][$formId] = true;
+}

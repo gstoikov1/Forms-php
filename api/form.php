@@ -15,11 +15,25 @@ if ($formId <= 0) {
 
 $data = Repository::getFormById($formId);
 
-echo json_encode([
-  'data' => $data,
-  'session_test' => [
-    'logged_in' => !empty($_SESSION['user_id']),
-    'user_id'   => $_SESSION['user_id'] ?? null,
-    'username'  => $_SESSION['username'] ?? null,
-  ]
-]);
+if (!$data) {
+    http_response_code(404);
+    exit(json_encode("Not Found"));
+}
+
+$needsCode = (int)$data['form']['requires_code'] === 1;
+$hasAccess = !$needsCode || hasFormAccess($formId) || $_SESSION['user_id'] == $data['form']['owner_id'];
+
+if ($hasAccess) {
+    echo json_encode([
+        'data' => $data,
+        'session_test' => [
+            'logged_in' => !empty($_SESSION['user_id']),
+            'user_id'   => $_SESSION['user_id'] ?? null,
+            'username'  => $_SESSION['username'] ?? null,
+        ]
+    ]);
+} else {
+    http_response_code(403);
+    exit(json_encode("Code required"));
+}
+
