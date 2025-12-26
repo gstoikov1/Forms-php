@@ -13,12 +13,35 @@ if ($formId <= 0) {
     <meta charset="utf-8">
     <title>Form</title>
     <style>
-        body { font-family: Arial, sans-serif; max-width: 800px; margin: 24px auto; }
-        .hidden { display:none; }
-        .error { color: #b00020; }
-        input { padding: 8px; }
-        button { padding: 8px 10px; }
-        pre { background:#111; color:#eee; padding:12px; border-radius:8px; overflow:auto; }
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 24px auto;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .error {
+            color: #b00020;
+        }
+
+        input {
+            padding: 8px;
+        }
+
+        button {
+            padding: 8px 10px;
+        }
+
+        pre {
+            background: #111;
+            color: #eee;
+            padding: 12px;
+            border-radius: 8px;
+            overflow: auto;
+        }
     </style>
 </head>
 <body>
@@ -40,7 +63,7 @@ if ($formId <= 0) {
     <p id="status">Loading…</p>
     <pre id="debug" class="hidden"></pre>
 </div>
-<div id = "form">
+<div id="form">
     <div id="title">
 
     </div>
@@ -143,8 +166,7 @@ if ($formId <= 0) {
                 input.placeholder = 'Your answer...';
                 input.style.width = '100%';
                 card.appendChild(input);
-            }
-            else if (q.question_type === 'SINGLE_CHOICE') {
+            } else if (q.question_type === 'SINGLE_CHOICE') {
                 if (!options.length) {
                     const msg = document.createElement('p');
                     msg.className = 'error';
@@ -175,8 +197,7 @@ if ($formId <= 0) {
 
                     card.appendChild(fieldset);
                 }
-            }
-            else if (q.question_type === 'MULTI_CHOICE') {
+            } else if (q.question_type === 'MULTI_CHOICE') {
                 if (!options.length) {
                     const msg = document.createElement('p');
                     msg.className = 'error';
@@ -206,8 +227,7 @@ if ($formId <= 0) {
 
                     card.appendChild(fieldset);
                 }
-            }
-            else {
+            } else {
                 const msg = document.createElement('p');
                 msg.className = 'error';
                 msg.textContent = `Unsupported question type: ${q.question_type}`;
@@ -233,8 +253,8 @@ if ($formId <= 0) {
         try {
             const res = await fetch('/forms/api/verify_form_code.php', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ form_id: formId, code })
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({form_id: formId, code})
             });
 
             const data = await res.json();
@@ -261,6 +281,7 @@ if ($formId <= 0) {
 
     // initial load
     fetchForm();
+
     function buildAnswersJsonOrThrow() {
         if (!currentFormData) throw new Error('Form is not loaded yet.');
 
@@ -278,35 +299,44 @@ if ($formId <= 0) {
                 const input = document.querySelector(`input[name="q_${qid}"]`);
                 const value = (input?.value ?? '').trim();
                 if (!value) throw new Error(`Question ${q.question_order}: please fill the text answer.`);
-                answers.push({ question_id: qid, type: 'OPEN', value });
-            }
-            else if (type === 'SINGLE_CHOICE') {
+                answers.push({question_id: qid, type: 'OPEN', value});
+            } else if (type === 'SINGLE_CHOICE') {
                 const checked = document.querySelector(`input[type="radio"][name="q_${qid}"]:checked`);
                 if (!checked) throw new Error(`Question ${q.question_order}: please select one option.`);
-                answers.push({ question_id: qid, type: 'SINGLE_CHOICE', option_id: Number(checked.value) });
-            }
-            else if (type === 'MULTI_CHOICE') {
+                answers.push({question_id: qid, type: 'SINGLE_CHOICE', option_id: Number(checked.value)});
+            } else if (type === 'MULTI_CHOICE') {
                 const checked = Array.from(document.querySelectorAll(`input[type="checkbox"][name="q_${qid}[]"]:checked`));
                 if (checked.length === 0) throw new Error(`Question ${q.question_order}: please select at least one option.`);
-                answers.push({ question_id: qid, type: 'MULTI_CHOICE', option_ids: checked.map(x => Number(x.value)) });
-            }
-            else {
+                answers.push({question_id: qid, type: 'MULTI_CHOICE', option_ids: checked.map(x => Number(x.value))});
+            } else {
                 throw new Error(`Unsupported question type: ${type}`);
             }
         }
 
-        return { form_id: formIdOut, answers };
+        return {form_id: formIdOut, answers};
     }
 
-    submitBtnEl.addEventListener('click', () => {
+    submitBtnEl.addEventListener('click', async () => {
         submitMsgEl.textContent = '';
         answersPreviewEl.classList.add('hidden');
         answersPreviewEl.textContent = '';
 
         try {
             const payload = buildAnswersJsonOrThrow();
+
             answersPreviewEl.classList.remove('hidden');
             answersPreviewEl.textContent = JSON.stringify(payload, null, 2);
+
+            const res = await fetch('/forms/api/submit_form.php', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(payload),
+            });
+
+            const text = await res.text();
+            if (!res.ok) throw new Error(`Server error (${res.status}): ${text}`);
+
+            submitMsgEl.textContent = 'Submitted successfully.';
         } catch (err) {
             submitMsgEl.textContent = err?.message || 'Validation error.';
         }

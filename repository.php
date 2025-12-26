@@ -66,12 +66,39 @@ class Repository
         return ($user && password_verify($pass, $user['password_hash'])) ? $user : null;
     }
 
-    public static function formExistsById(int $formId) : bool
+    public static function formExistsById(int $formId): bool
     {
         $pdo = db();
         $stmt = $pdo->prepare("SELECT id FROM forms WHERE id = ? LIMIT 1");
         $stmt->execute([$formId]);
         return $stmt->rowCount() > 0;
+    }
+
+    public static function saveFormSubmission(int $formId, array $mapQuestionIdToAnswer): void
+    {
+        $pdo = db();
+        $pdo->beginTransaction();
+        $stmt = $pdo->prepare("INSERT INTO forms_filled (form_id) VALUES (?)");
+        $stmt->execute([$formId]);
+        $stmtOpenQst = $pdo->prepare("INSERT INTO responses_open_questions
+                                                   (form_filled_id, question_id, response_text)
+                                            VALUES (?,?,?)");
+        $stmtChoiceQst = $pdo->prepare("INSERT INTO responses_choice_questions
+                                                    (form_filled_id, question_id, option_id) 
+                                                    VALUES (?,?,?)");
+        foreach ($mapQuestionIdToAnswer as $questionId => $data) {
+            $type = $data['type'];
+            if ($type == "OPEN") {
+                $stmtOpenQst->execute([$formId, $questionId, $data['value']]);
+            } elseif ($type == "SINGLE_CHOICE") {
+                $stmtChoiceQst->execute([$formId, $questionId, $data['value']]);
+            } elseif ($type == "MULTI_CHOICE") {
+                foreach ($data['value'] as $optionId) {
+                    $stmtChoiceQst->execute([$formId, $questionId,$optionId]);
+                }
+            }
+        }
+        $pdo->commit();
     }
 
 }

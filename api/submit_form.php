@@ -32,10 +32,10 @@ foreach ($answers as $answer) {
         exit;
     }
     $type = $answer['type'];
-    $mapQuestionIdToAnswer[$answer['question_id']] = $value;
-
-
-
+    $mapQuestionIdToAnswer[$answer['question_id']] = [
+        "type" => $type,
+        "value" => $value
+    ];
 }
-
+Repository::saveFormSubmission($formId, $mapQuestionIdToAnswer);
 echo json_encode([$mapQuestionIdToAnswer]);
