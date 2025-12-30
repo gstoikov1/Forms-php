@@ -7,9 +7,9 @@ require_login();
 <head>
     <meta charset="utf-8">
     <title>Dashboard</title>
-    <link rel="stylesheet" href="/Forms-php/client/index.css">
-    <link rel="stylesheet" href="/Forms-php/client/button.css">
-    <link rel="stylesheet" href="/Forms-php/client/dashboard/dashboard.css">
+    <link rel="stylesheet" href="/forms/client/index.css">
+    <link rel="stylesheet" href="/forms/client/button.css">
+    <link rel="stylesheet" href="/forms/client/dashboard/dashboard.css">
 </head>
 <body>
 
@@ -17,12 +17,12 @@ require_login();
     <header class="main-header">
         <div class="header-left">
             <h1 class="project-title">PuffinForms</h1>
-            <a href="/Forms-php/create-form.php" class="btn btn-secondary">Create Form</a>
+            <a href="/forms/create-form.php" class="btn btn-secondary">Create Form</a>
         </div>
         
         <div class="header-right">
             <span>Welcome, <strong><?= htmlspecialchars($_SESSION['username'] ?? 'User') ?></strong></span>
-            <a href="/Forms-php/logout.php" class="btn btn-secondary">Logout</a>
+            <a href="/forms/logout.php" class="btn btn-secondary">Logout</a>
         </div>
     </header>
 

@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
       session_regenerate_id(true);
 
-      header("Location: /Forms-php/client/dashboard/dashboard.php");
+      header("Location: /forms/client/dashboard/dashboard.php");
       exit;
   } else {
       $error = "Invalid username or password.";
@@ -29,10 +29,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="utf-8">
     <title>Login</title>
-    <link rel="stylesheet" href="/Forms-php/client/index.css">
-    <link rel="stylesheet" href="/Forms-php/client/button.css">
-    <link rel="stylesheet" href="/Forms-php/client/error.css">
-    <link rel="stylesheet" href="/Forms-php/client/login/login.css">
+    <link rel="stylesheet" href="/forms/client/index.css">
+    <link rel="stylesheet" href="/forms/client/button.css">
+    <link rel="stylesheet" href="/forms/client/error.css">
+    <link rel="stylesheet" href="/forms/client/login/login.css">
 </head>
 <body>
 
@@ -54,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <button type="submit" class="btn btn-primary">Login</button>
         </form>
 
-        <a href="/Forms-php/client/register/register.php" class="register-link">
+        <a href="/forms/client/register/register.php" class="register-link">
             Not a member? <span>Sign up now</span>
         </a>
     </div>
