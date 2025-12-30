@@ -42,8 +42,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="utf-8">
     <title>Register - PuffinForms</title>
     <link rel="stylesheet" href="/Forms-php/client/index.css">
+    <link rel="stylesheet" href="/Forms-php/client/button.css">
     <link rel="stylesheet" href="/Forms-php/client/error.css">
-    <link rel="stylesheet" href="/Forms-php/client/registerPage/register.css">
+    <link rel="stylesheet" href="/Forms-php/client/register/register.css">
 </head>
 <body>
 
@@ -66,10 +67,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <input name="password" type="password" placeholder="Password" required>
             </div>
             
-            <button type="submit" class="btn-register">Create Account</button>
+            <button type="submit" class="btn btn-primary">Create Account</button>
         </form>
 
-        <a href="/Forms-php/client/loginPage/login.php" class="login-link">
+        <a href="/Forms-php/client/login/login.php" class="login-link">
             Already have an account? <span>Login</span>
         </a>
     </div>

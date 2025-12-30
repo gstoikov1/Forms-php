@@ -10,7 +10,7 @@ session_start();
 
 function require_login(): void {
   if (empty($_SESSION['user_id'])) {
-    header("Location: /forms/login.php");
+    header("Location: /Forms-php/client/login/login.php");
     exit;
   }
 }
