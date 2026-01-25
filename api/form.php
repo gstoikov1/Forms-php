@@ -36,4 +36,4 @@ if ($hasAccess) {
     http_response_code(403);
     exit(json_encode("Code required"));
 }
-
+?>

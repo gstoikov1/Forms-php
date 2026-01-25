@@ -14,13 +14,15 @@ require_login();
     <link rel="stylesheet" href="/forms/client/button.css">
     <link rel="stylesheet" href="/forms/client/dashboard/dashboard.css">
     <link rel="stylesheet" href="/forms/client/createForm/create-form.css">
+    <link rel="stylesheet" href="/forms/client/bird.css">
 </head>
 <body>
 
 <div class="dashboard-wrapper">
     <header class="main-header">
         <div class="header-left">
-            <h1 class="project-title">PuffinForms</h1>
+            <a href = "/forms/client/dashboard/dashboard.php"><div class="mockingbird" style="transform: scaleX(-1); height: 49px; margin-right: 0; padding-right: 0"></div></a>
+            <h1 class="project-title">Mockingbird Forms</h1>
         </div>
         <div class="header-right">
             <a href="/forms/client/dashboard/dashboard.php" class="btn btn-secondary">Back to Dashboard</a>

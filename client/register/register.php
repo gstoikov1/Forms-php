@@ -3,12 +3,53 @@ require_once __DIR__ . '/../../config.php';
 require_once __DIR__ . '/../../session.php';
 require_once __DIR__ . '/../../repository.php';
 $error = '';
+$errors = [];
+
+////////////////////
+$username = $_POST['username'] ?? '';
+$email    = $_POST['email'] ?? '';
+$pass     = $_POST['password'] ?? '';
+
+
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+/*
   $username = trim($_POST['username'] ?? '');
   $email    = trim($_POST['email'] ?? '');
   $pass     = $_POST['password'] ?? '';
+*/
 
+
+    if (trim($username) === '' || strlen(trim($username)) < 3) {
+        $errors['username'] = "Username must be at least 3 characters.";
+    }
+
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $errors['email'] = "Invalid email address.";
+    }
+
+    if (strlen($pass) < 8) {
+        $errors['password'] = "Password must be at least 8 characters.";
+    }
+
+    if (empty($errors)) {
+    $res = Repository::registerUser($username, $pass, $email);
+        if ($res > 0) {
+            $_SESSION['user_id'] = $res;
+            $_SESSION['username'] = $username;
+            session_regenerate_id(true);
+            header("Location: /forms/client/dashboard/dashboard.php");
+            exit;
+        } elseif ($res == -1) {
+            $error = "Internal Server Error";
+        } elseif ($res == -2) {
+        $error = "Username or email already exists.";
+        } else {
+        $error = "Unknown error";
+        }
+    }
+}
+/*
   if ($username === '' || strlen($username) < 3) {
     $error = "Username must be at least 3 characters.";
   } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -23,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
       session_regenerate_id(true);
 
-      header("Location: /forms/dashboard.php");
+      header("Location: /forms/client/dashboard/dashboard.php");
       exit;
     } else if ($res == -1) {
         $error = "Internal Server Error";
@@ -35,6 +76,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
   }
 }
+*/
+
+
 ?>
 <!doctype html>
 <html lang="en">
@@ -58,13 +102,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <form method="post">
             <div class="form-group">
-                <input name="username" type="text" placeholder="Username" required>
+                <input name="username" type="text" placeholder="Username" value="<?= htmlspecialchars($username) ?>"
+                                                                          style="border:1px solid <?= isset($errors['username']) ? 'red' : '#ccc' ?>"
+                                                                          required>
+
+                 <?php if (isset($errors['username'])): ?>
+                     <div style="color:red"><?= $errors['username'] ?></div>
+                 <?php endif; ?>
             </div>
+
+
             <div class="form-group">
-                <input name="email" type="email" placeholder="Email Address" required>
+                <input name="email" type="email" placeholder="Email Address" value="<?= htmlspecialchars($email) ?>"
+                                                                             style="border:1px solid <?= isset($errors['email']) ? 'red' : '#ccc' ?>"
+                                                                             required>
+
+                 <?php if (isset($errors['email'])): ?>
+                    <div style="color:red"><?= $errors['email'] ?></div>
+                 <?php endif; ?>
             </div>
+
+
             <div class="form-group">
-                <input name="password" type="password" placeholder="Password" required>
+                <input name="password" type="password" placeholder="Password" style="border:1px solid <?= isset($errors['password']) ? 'red' : '#ccc' ?>"
+                                                                              required>
+                <?php if (isset($errors['password'])): ?>
+                    <div style="color:red"><?= $errors['password'] ?></div>
+                <?php endif; ?>
+
             </div>
             
             <button type="submit" class="btn btn-primary">Create Account</button>
@@ -77,4 +142,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </div>
 
 </body>
+
+
+
 </html>
