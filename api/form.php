@@ -2,9 +2,13 @@
 declare(strict_types=1);
 
 require_once __DIR__ . '/../session.php';
-require_once __DIR__ . '/../repository.php';
+require_once __DIR__ . '/../Repository.php';
 
 header('Content-Type: application/json');
+
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 $formId = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 if ($formId <= 0) {
@@ -36,4 +40,4 @@ if ($hasAccess) {
     http_response_code(403);
     exit(json_encode("Code required"));
 }
-?>
+

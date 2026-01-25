@@ -94,10 +94,22 @@ require_login();
                 }
             });
 
+            const responses = document.createElement('a');
+            responses.href = `./../entries/entries.php?id=${form.id}`
+            responses.textContent = 'View Responses';
+            responses.style.marginLeft = '12px'
+
+            const exportCsv = document.createElement('a');
+            exportCsv.href = `/forms/api/export_form_entries.php?id=${form.id}`;
+            exportCsv.textContent = 'Export responses into CSV';
+            exportCsv.style.marginLeft = '12px';
+            exportCsv.setAttribute('download', 'responses.csv');
+
+
             const title = document.createElement('h2');
             title.textContent = form.name;
 
-            element.append(title, link, deleteLink);
+            element.append(title, link, deleteLink, responses, exportCsv);
             formsSection.appendChild(element);
         }
     })();
