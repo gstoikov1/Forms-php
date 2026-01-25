@@ -123,8 +123,6 @@ require_login();
         }
     });
 
-
-
     function addQuestionCard() {
         qCounter += 1;
         const qId = `q_${Date.now()}_${qCounter}`;
@@ -148,8 +146,8 @@ require_login();
                     <label>Type</label>
                     <select class="q-type">
                         <option value="OPEN">Text Input</option>
-                        <option value="SINGLE_CHOICE">Multiple Choice (Radio)</option>
-                        <option value="MULTI_CHOICE">Checkboxes</option>
+                        <option value="MULTI_CHOICE">Multiple Choice (Radio)</option>
+                        <option value="SINGLE_CHOICE">Checkboxes</option>
                     </select>
                   </div>
                   <div class="input-div q-order-box">
@@ -190,20 +188,8 @@ require_login();
                 if (optList.children.length === 0) {
                     addOptionRow(optList);
                     addOptionRow(optList);
-                } else {
-                    const inputType = (t === 'SINGLE_CHOICE') ? 'checkbox' : 'radio';
-                    const qUid = card.dataset.qid;
-                    const existingInputs = optList.querySelectorAll('.opt-is-correct');
-                    
-                    existingInputs.forEach(input => {
-                        input.type = inputType;
-                        if (inputType === 'radio') {
-                            input.name = `correct_${qUid}`;
-                        } else {
-                            input.removeAttribute('name');
-                        }
-                    });
                 }
+
             }
         });
 
@@ -213,41 +199,29 @@ require_login();
         questionsEl.appendChild(card);
     }
 
-   function addOptionRow(optList) {
-    const card = optList.closest('.builder-section');
-    const questionType = card.querySelector('.q-type').value;
-    const qUid = card.dataset.qid;
-    
-    const row = document.createElement('div');
-    row.className = 'opt-row';
+    function addOptionRow(optList) {
+        const row = document.createElement('div');
+        row.className = 'opt-row';
+        
+        row.style.display = 'flex';
+        row.style.alignItems = 'flex-end';
+        row.style.gap = '10px';
+        row.style.marginBottom = '10px';
 
-    const inputType = (questionType === 'SINGLE_CHOICE') ? 'checkbox' : 'radio';
-    const inputName = `correct_${qUid}`;
-
-    row.innerHTML = `
-        <div class="opt-field flex-1">
-            <label>Option Text</label>
-            <input type="text" class="opt-text fullWidth" placeholder="Enter text" />
-          </div>
-        <div class="opt-check-field">
-            <label>Correct</label>
-            <div class="check-field-container">
-              <input type="${inputType}" name="${inputName}" class="opt-is-correct"/>
+        row.innerHTML = `
+            <div class="opt-field" style="flex-grow: 1;">
+                <label>Option Text</label>
+                <input type="text" class="opt-text fullWidth" placeholder="Enter option text" />
             </div>
-        </div>
-        <div class="opt-field q-order-box">
-            <label>Order</label>
-            <input type="number" class="q-order" min="1" value="${optList.children.length + 1}" />
-        </div>
-        <button type="button" class="btn remove-q-btn" style="margin-bottom: 2px;">&times;</button>
-    `;
+            <button type="button" class="btn remove-q-btn" style="height: 40px; margin-bottom: 2px;">&times;</button>
+        `;
 
-    row.querySelector('button').addEventListener('click', () => {
-        row.remove();
-    });
-    
-    optList.appendChild(row);
-}
+        row.querySelector('button').addEventListener('click', () => {
+            row.remove();
+        });
+        
+        optList.appendChild(row);
+    }
 
     function buildJson() {
         const name = formNameEl.value.trim();
@@ -271,16 +245,13 @@ require_login();
             let options = [];
             if (question_type !== 'OPEN') {
                 const optRows = [...card.querySelectorAll('.opt-row')];
-                options = optRows.map((r) => ({
+                options = optRows.map((r, i) => ({
                     option_text: r.querySelector('.opt-text').value.trim(),
-                    option_order: parseInt(r.querySelector('.q-order').value),
-                    is_correct: r.querySelector('.opt-is-correct').checked ? 1 : 0
+                    option_order: i + 1 
                 }));
               
                 if (options.length < 2) errors.push("Choice questions need at least 2 options.");
-
-                const hasCorrect = options.some(opt => opt.is_correct);
-                if (!hasCorrect) errors.push(`Question "${question_text}" needs at least one correct answer.`);
+                
             }
             return { question_text, question_type, question_order, options };
         });
