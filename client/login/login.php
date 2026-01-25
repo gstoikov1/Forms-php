@@ -33,12 +33,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="/forms/client/button.css">
     <link rel="stylesheet" href="/forms/client/error.css">
     <link rel="stylesheet" href="/forms/client/login/login.css">
+    <link rel="stylesheet" href="/forms/client/bird.css">
 </head>
 <body>
 
+
+
+
 <div class="page-container">
+
+<!--  <div class="clover">
+                                      <div class="img1">gdfg</div>
+                                      <div class="img2">dgd</div>
+                                      <div class="img3">dgd</div>
+                                      <div class="img4">dgdgd</div>
+                                    </div>-->
+
+
+
+
     <div class="login-card">
-        <h1>PuffinForms</h1>
+
+<table width="100%">
+    <tr>
+        <td width="0%"> <div class="bird" style="transform: scaleX(-1)"></div></td>
+        <td width="100%"><h1 style="text-aligh: center; size: 2vw">Mockingbird Forms</h1></td>
+        <td width="0%"><div class="bird"></div></td>
+    </tr>
+</table>
+
+
+
 
         <?php if ($error): ?>
             <p class="error-msg"><?= htmlspecialchars($error) ?></p>

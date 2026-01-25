@@ -45,6 +45,6 @@ if (!hash_equals($expected, $code)) {
 }
 
 // Success: mark this session as allowed
-grantFormAccess($formId);
+grant_form_access($formId);
 
 echo json_encode(['ok' => true]);

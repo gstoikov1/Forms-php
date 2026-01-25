@@ -10,14 +10,21 @@ require_login();
     <link rel="stylesheet" href="/forms/client/index.css">
     <link rel="stylesheet" href="/forms/client/button.css">
     <link rel="stylesheet" href="/forms/client/dashboard/dashboard.css">
+    <link rel="stylesheet" href="/forms/client/bird.css">
 </head>
-<body>
+<body link="#00000033">
 
 <div class="dashboard-wrapper">
     <header class="main-header">
         <div class="header-left">
-            <h1 class="project-title">PuffinForms</h1>
+            <div class="mockingbird" style="transform: scaleX(-1); height: 49px; margin-right: 0; padding-right: 0"></div>
+            <h1 class="project-title">Mockingbird Forms</h1>
             <a href="/forms/client/createForm/create-form.php" class="btn btn-secondary">Create Form</a>
+        </div>
+
+        <div class = "header-left">
+           <!-- <h1 class = "project-title">Ranking</h1>  -->
+            <a href="/forms/client/Ranking/ranking.php" class="btn btn-secondary">Visit user ranking</a>
         </div>
         
         <div class="header-right">
@@ -30,6 +37,9 @@ require_login();
         <h2>Your Dashboard</h2>
         <section id="Forms">
             </section>
+
+        <h2 style="margin-top: 6vh"><a href = "/forms/client/allForms/allForms.php">Fill forms</a></h2>
+
     </main>
 </div>
 
@@ -59,13 +69,39 @@ require_login();
             link.href = `/forms/form.php?id=${form.id}`;
             link.textContent = 'Open form';
 
+            const deleteLink = document.createElement('a');
+            deleteLink.href = '#';
+            deleteLink.textContent = 'Delete form';
+            deleteLink.style.marginLeft = '12px';
+            deleteLink.style.color = 'red';
+
+            deleteLink.addEventListener('click', async (e) => {
+                e.preventDefault();
+                if (!confirm(`Are you sure you want to delete "${form.name}"?`))
+                    return;
+                const res = await fetch('/forms/api/delete_form.php', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ form_id: form.id })
+                });
+
+                if(res.ok){
+                    element.remove(); // махаме формата от списъка
+                    alert('Form deleted successfully');
+                }
+                else{
+                    alert('Failed to delete form');
+                }
+            });
+
             const title = document.createElement('h2');
             title.textContent = form.name;
 
-            element.append(title, link);
+            element.append(title, link, deleteLink);
             formsSection.appendChild(element);
         }
     })();
+
 </script>
 </body>
 </html>
