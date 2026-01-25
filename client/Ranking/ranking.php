@@ -16,13 +16,10 @@ $stmt = $pdo->query("
     ORDER BY forms_count DESC
 ");
 
-
 $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 $currentUser = $_SESSION['username'] ?? null;
-
 ?>
-
 
 <!doctype html>
 <html>
@@ -41,7 +38,6 @@ $currentUser = $_SESSION['username'] ?? null;
         <header class="main-header">
             <a href = "/forms/client/dashboard/dashboard.php"><div class="mockingbird" style="transform: scaleX(-1); height: 49px; margin-right: 0; padding-right: 0"></div></a>
              <h1 class="project-title">User Ranking</h1>
-
              <div class="header-right">
                    <a href="/forms/client/dashboard/dashboard.php" class="btn btn-secondary">Back to Dashboard</a>
              </div>
@@ -55,7 +51,7 @@ $currentUser = $_SESSION['username'] ?? null;
         <th>Forms created</th>
     </tr>
 
-    <?php foreach ($rows as $row): ?>
+    <?php foreach($rows as $row): ?>
             <?php $isCurrent = ($row['username'] === $currentUser); ?>
             <tr>
                 <td>
@@ -79,25 +75,20 @@ $currentUser = $_SESSION['username'] ?? null;
 </div>
 
 <?php
-
 $totalForms = 0;
 $userCount = count($rows);
 
-foreach ($rows as $row) {
+foreach ($rows as $row){
     $totalForms += (int)$row['forms_count'];
 }
 
-$averageForms = $userCount > 0
-    ? round($totalForms / $userCount, 2)
-    : 0;
-
-
+$averageForms = $userCount > 0  ? round($totalForms / $userCount, 2) : 0;
 
 $currentUser = $_SESSION['username'] ?? null;
 
 $currentUserRank = null;
-foreach ($rows as $index => $row) {
-    if ($row['username'] === $currentUser) {
+foreach ($rows as $index => $row){
+    if ($row['username'] === $currentUser){
         $currentUserRank = $index + 1;
         break;
     }
@@ -112,8 +103,8 @@ if ($currentUser && $currentUserRank > 3) {
 }
 
 $maxForms = 0;
-foreach ($histogramUsers as $u) {
-    if ($u['forms_count'] > $maxForms) {
+foreach ($histogramUsers as $u){
+    if($u['forms_count'] > $maxForms){
         $maxForms = $u['forms_count'];
     }
 }
@@ -123,34 +114,35 @@ foreach ($histogramUsers as $u) {
 
 <h3>Top users by number of created forms</h3>
 
-<?php foreach ($histogramUsers as $index => $row):
+<?php foreach($histogramUsers as $index => $row):
     $rank = array_search($row, $rows, true) + 1;
 
     $barWidth = ($maxForms > 0) ? (int)(($row['forms_count'] / $maxForms) * 300) : 0;
     $isCurrent = ($row['username'] === $currentUser);
 ?>
     <div style="margin-bottom:6px;">
-        <span style="display:inline-block; width:30px;">
-            <?= $rank ?>.
-        </span>
+        <table class="table-class">
+           <tr>
+               <td class="td1">
+                    <?= $rank ?>.
+                </td>
 
-        <span style="display:inline-block; width:140px;">
-            <?php if ($isCurrent): ?>
-                <strong><?= htmlspecialchars($row['username']) ?> (Me)</strong>
-            <?php else: ?>
-                <?= htmlspecialchars($row['username']) ?>
-            <?php endif; ?>
-        </span>
+                <td class="td2">
+                    <?php if ($isCurrent): ?>
+                        <b><?= htmlspecialchars($row['username']) ?> (Me)</b>
+                    <?php else: ?>
+                        <?= htmlspecialchars($row['username']) ?>
+                    <?php endif; ?>
+                </td>
 
-        <span style="display:inline-block;
-                     background-color:<?= $isCurrent ? '#D98FBF' : '#D98FBF' ?>;
-                     height:20px;
-                     width:<?= $barWidth ?>px;">
-        </span>
+                <td class="td-results" width=<?= $barWidth ?>px>
+                    <div class="results"></div>
+                </td>
 
-        <span style="margin-left:5px;">
-            <?= (int)$row['forms_count'] ?>
-        </span>
+                <td class="td3">
+                    <?= (int)$row['forms_count'] ?>
+                </td>
+        </table>
     </div>
 <?php endforeach; ?>
 </div>
@@ -158,7 +150,6 @@ foreach ($histogramUsers as $u) {
 <p style="margin-top: 15px; font-size: 16px; text-align: center;">
     <b>Average:</b> <?= $averageForms ?> forms per user
 </p>
-
 
 </body>
 </html>

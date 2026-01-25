@@ -11,3 +11,33 @@ table{
     width: fit-content;
     margin: 30px auto;
 }
+
+.table-class{
+    width: 100%;
+    justify-content: left;
+}
+
+.td1{
+    width: 3vw;
+    text-align: left;
+}
+
+.td2{
+    width: 10vw;
+    text-align: left;
+}
+
+.td-results{
+    background-color: #D98FBF;
+}
+
+.results{
+    height: 20px;
+    background-color: #D98FBF;
+    border-radius: 4px;
+}
+
+.td3{
+    width: 2vw;
+    text-align: center;
+}
