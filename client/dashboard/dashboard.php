@@ -66,7 +66,7 @@ require_login();
             const element = document.createElement('div');
 
             const link = document.createElement('a');
-            link.href = `/forms/form.php?id=${form.id}`;
+            link.href = `/forms/client/viewForm/form.php?id=${form.id}`;
             link.textContent = 'Open form';
 
             const deleteLink = document.createElement('a');
@@ -86,7 +86,7 @@ require_login();
                 });
 
                 if(res.ok){
-                    element.remove(); // махаме формата от списъка
+                    element.remove();
                     alert('Form deleted successfully');
                 }
                 else{

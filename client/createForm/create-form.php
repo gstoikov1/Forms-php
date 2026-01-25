@@ -146,8 +146,8 @@ require_login();
                     <label>Type</label>
                     <select class="q-type">
                         <option value="OPEN">Text Input</option>
-                        <option value="SINGLE_CHOICE">Multiple Choice (Radio)</option>
-                        <option value="MULTI_CHOICE">Checkboxes</option>
+                        <option value="MULTI_CHOICE">Multiple Choice (Radio)</option>
+                        <option value="SINGLE_CHOICE">Checkboxes</option>
                     </select>
                   </div>
                   <div class="input-div q-order-box">
