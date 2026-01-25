@@ -30,13 +30,11 @@ if (!$form) {
 }
 
 if ((int)$form['requires_code'] !== 1) {
-    // no code needed → grant access anyway
-    grant_form_access($formId);
+    grantFormAccess($formId);
     echo json_encode(['ok' => true]);
     exit;
 }
 
-// Compare safely (avoid timing leaks)
 $expected = (string)$form['code'];
 if (!hash_equals($expected, $code)) {
     http_response_code(403);
@@ -44,7 +42,6 @@ if (!hash_equals($expected, $code)) {
     exit;
 }
 
-// Success: mark this session as allowed
-grant_form_access($formId);
+grantFormAccess($formId);
 
 echo json_encode(['ok' => true]);

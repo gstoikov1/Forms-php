@@ -54,27 +54,6 @@ async function fetchAllForms(){
     return data.forms || [];
 }
 
-function openForm(formId, requiresCode) {
-    if (requiresCode == 1) {
-        const code = prompt("This form is private. Enter access code:");
-        if (!code) return;
-
-        fetch('/forms/api/verify_form_code.php', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({ form_id: formId, code })
-        }).then(res => {
-            if (res.ok) {
-                window.location.href = `/forms/form.php?id=${formId}`;
-            } else {
-                alert("Invalid access code");
-            }
-        });
-    } else {
-        window.location.href = `/forms/form.php?id=${formId}`;
-    }
-}
-
 (async () => {
     const forms = await fetchAllForms();
     const container = document.getElementById('formsList');
@@ -103,10 +82,9 @@ function openForm(formId, requiresCode) {
             </div>
 
             <div class="form-actions">
-                <button class="btn btn-primary"
-                    onclick="openForm(${form.id}, ${form.requires_code})" style="background-color: #E0C5D9">
+                <a href="/forms/client/viewForm/form.php?id=${form.id}" class="btn btn-primary" style="background-color: #E0C5D9; text-decoration: none; display: inline-block; text-align: center;">
                     Fill form
-                </button>
+                </a>
             </div>
         `;
 
