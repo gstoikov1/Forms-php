@@ -173,7 +173,6 @@ require_login();
         }
     }
 
-    // --- Modal Functions ---
     function openModal() {
         modalInput.value = '';
         modalError.style.display = 'none';
