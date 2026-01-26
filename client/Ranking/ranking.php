@@ -29,7 +29,7 @@ $currentUser = $_SESSION['username'] ?? null;
     <link rel="stylesheet" href="/forms/client/index.css">
     <link rel="stylesheet" href="/forms/client/button.css">
     <link rel="stylesheet" href="/forms/client/dashboard/dashboard.css">
-    <link rel="stylesheet" href="/forms/client/Ranking/ranking.css">
+    <link rel="stylesheet" href="/forms/client/ranking/ranking.css">
     <link rel="stylesheet" href="/forms/client/bird.css">
 </head>
 <body style="background-color: #f8f9fa;">

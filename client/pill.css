@@ -1,0 +1,57 @@
+.forms-list{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.form-card{
+    background: #fff;
+    padding: 20px;
+    border-radius: var(--space-12);
+    box-shadow: 0 2px 6px rgba(0,0,0,.1);
+}
+
+.form-card h3 {
+    margin: 0 0 8px 0;
+}
+
+.form-meta{
+    font-size: 14px;
+    color: #666;
+    margin-bottom: var(--space-12);
+}
+
+.form-actions a, .form-actions button{
+    margin-right: var(--space-12);
+}
+
+.form-actions {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-12)
+}
+
+.form-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.form-header-button {
+    display: flex;
+    gap: var(--space-8);
+
+    > button {
+        max-width: 40px;
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+    }
+
+    > .deletebtn {
+        background-color: #E63946 !important;
+    }
+
+    > .exportbtn {
+        background-color: #88BB92 !important;
+    }
+}

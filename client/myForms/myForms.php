@@ -12,7 +12,7 @@ require_login();
     <link rel="stylesheet" href="/forms/client/index.css">
     <link rel="stylesheet" href="/forms/client/button.css">
     <link rel="stylesheet" href="/forms/client/dashboard/dashboard.css">
-    <link rel="stylesheet" href="/forms/client/allForms/allForms.css">
+    <link rel="stylesheet" href="/forms/client/pill.css">
     <link rel="stylesheet" href="/forms/client/bird.css">
 </head>
 
@@ -64,33 +64,97 @@ async function fetchMyForms(){
     }
 
     for (const form of forms) {
-        const card = document.createElement('div');
-        card.className = 'form-card';
+            const isMe = form.owner === CURRENT_USER;
+            const isPrivate = form.requires_code == 1;
 
-        const codeDisplay = form.requires_code == 1 
-            ? `<br><span style="color:#666; font-size:0.9em;">Access Code: <b>${avoidXSSattacks(form.code || '')}</b></span>` 
-            : `<br><span style="color:#666; font-size:0.9em;">Access Code: <b>None</b></span>` ;
+            const card = document.createElement('div');
+            card.className = 'form-card';
 
-        card.innerHTML = `
-            <h3>${avoidXSSattacks(form.name)}</h3>
+            const codeDisplay = form.requires_code == 1 
+                ? `<br><span style="color:#666; font-size:0.9em;">Access Code: <b>${avoidXSSattacks(form.code || '')}</b></span>` 
+                : `<br><span style="color:#666; font-size:0.9em;">Access Code: <b>None</b></span>` ;
 
-            <div class="form-meta">
-                Created by <b>${avoidXSSattacks(CURRENT_USER)} (Me)</b>
-                <br>
-                ${form.requires_code == 1 ? '🔒 Private form' : '🌍 Public form'}
-                ${codeDisplay}
-            </div>
+            deleteBtnHtml = `
+                <button class="deletebtn btn btn-primary" onclick="triggerDelete(${form.id}, '${avoidXSSattacks(form.name)}', this)" style="background-color: #E0C5D9; text-decoration: none; display: inline-block; text-align: center;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            `;
 
-            <div class="form-actions">
-                <a href="/forms/client/viewForm/form.php?id=${form.id}" class="btn btn-primary" style="background-color: #E0C5D9; text-decoration: none; display: inline-block; text-align: center;">
+            card.innerHTML = `
+                <div class="form-header">
+                    <h3>${avoidXSSattacks(form.name)}</h3>
+                    <div class="form-header-button">
+                    <button class="btn btn-primary exportbtn" onclick="triggerExport(${form.id}, ${isPrivate}, ${isMe})" style="background-color: #E0C5D9; text-decoration: none; display: inline-block; text-align: center;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7 10 12 15 17 10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                    </button>
+                      ${deleteBtnHtml}
+                    </div>
+                </div>
+
+                <div class="form-meta">
+                    Created by <b>${avoidXSSattacks(form.owner)} ${isMe ? '(Me)' : ''}</b>
+                    <br>
+                    ${isPrivate ? '🔒 Private form' : '🌍 Public form'}
+                    ${codeDisplay}
+                </div>
+
+                <div class="form-actions">
+                    <a href="/forms/client/viewForm/form.php?id=${form.id}" class="btn btn-primary" style="background-color: #E0C5D9; text-decoration: none; display: inline-block; text-align: center;">
                     Fill form
                 </a>
-            </div>
-        `;
+                
+                <button class="btn btn-primary" onclick="triggerStats(${form.id}, ${isPrivate}, ${isMe})" style="background-color: #E0C5D9; text-decoration: none; display: inline-block; text-align: center;">
+                    View Stats
+                </button>
+                </div>
+            `;
 
-        container.appendChild(card);
-    }
+            container.appendChild(card);
+        }
 })();
+
+window.triggerDelete = async (id, name, btn) => {
+        if (!confirm(`Are you sure you want to delete "${name}"?`)) return;
+        try {
+            const res = await fetch('/forms/api/delete_form.php', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ form_id: id })
+            });
+            if (res.ok) {
+                btn.closest('.form-card').remove();
+            } else {
+                alert('Failed to delete.');
+            }
+        } catch (e) {
+            alert('Error deleting form.');
+        }
+    };
+
+    window.triggerExport = (id, isPrivate, isMe) => {
+        handleProtectedNav(`/forms/api/export_form_entries.php?id=${id}`, id, isPrivate, isMe);
+    };
+
+    window.triggerStats = (id, isPrivate, isMe) => {
+        handleProtectedNav(`/forms/client/entries/entries.php?id=${id}`, id, isPrivate, isMe);
+    };
+
+    function handleProtectedNav(url, formId, isPrivate, isMe) {
+        if (isMe || !isPrivate) {
+            window.location.href = url;
+        } else {
+            pendingAction = { url, formId };
+            openModal();
+        }
+    }
+
 
 function avoidXSSattacks(str) {
     if (!str) return '';
