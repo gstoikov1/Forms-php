@@ -14,7 +14,7 @@ require_login();
     <link rel="stylesheet" href="/forms/client/bird.css">
 </head>
 <body>
-
+<div class="page-container">
 <div class="dashboard-wrapper">
     <header class="main-header">
         <div class="header-left">
@@ -35,7 +35,7 @@ require_login();
     </header>
 
     <main class="dashboard-content">
-        <h2>Dashboard</h2>
+        <h2>All Forms</h2>
         <section id="Forms"></section>
     </main>
 </div>
@@ -52,12 +52,12 @@ require_login();
         </div>
     </div>
 </div>
+</div>
 
 <script>
     const CURRENT_USER = <?= json_encode($_SESSION['username']) ?>;
     const formsSection = document.querySelector('#Forms');
     
-    // Modal Elements
     const modal = document.getElementById('accessModal');
     const modalInput = document.getElementById('modalCodeInput');
     const modalError = document.getElementById('modalError');
@@ -93,7 +93,7 @@ require_login();
             let deleteBtnHtml = '';
             if (isMe) {
                 deleteBtnHtml = `
-                    <button class="deletebtn btn btn-primary" onclick="triggerDelete(${form.id}, '${avoidXSSattacks(form.name)}', this)" style="background-color: #E0C5D9; text-decoration: none; display: inline-block; text-align: center;">
+                    <button class="deletebtn btn btn-primary" onclick="triggerDelete(${form.id}, '${avoidXSSattacks(form.name)}', this)" style="background-color: #C38EB5; text-decoration: none; display: inline-block; text-align: center;">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <line x1="18" y1="6" x2="6" y2="18"></line>
                             <line x1="6" y1="6" x2="18" y2="18"></line>
@@ -106,7 +106,7 @@ require_login();
                 <div class="form-header">
                     <h3>${avoidXSSattacks(form.name)}</h3>
                     <div class="form-header-button">
-                    <button class="btn btn-primary exportbtn" onclick="triggerExport(${form.id}, ${isPrivate}, ${isMe})" style="background-color: #E0C5D9; text-decoration: none; display: inline-block; text-align: center;">
+                    <button class="btn btn-primary exportbtn" onclick="triggerExport(${form.id}, ${isPrivate}, ${isMe})" style="background-color: #C38EB5; text-decoration: none; display: inline-block; text-align: center;">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                             <polyline points="7 10 12 15 17 10"></polyline>
@@ -124,11 +124,11 @@ require_login();
                 </div>
 
                 <div class="form-actions">
-                    <a href="/forms/client/viewForm/form.php?id=${form.id}" class="btn btn-primary" style="background-color: #E0C5D9; text-decoration: none; display: inline-block; text-align: center;">
+                    <a href="/forms/client/viewForm/form.php?id=${form.id}" class="btn btn-primary" style="background-color: #C38EB5; text-decoration: none; display: inline-block; text-align: center;">
                     Fill form
                 </a>
                 
-                <button class="btn btn-primary" onclick="triggerStats(${form.id}, ${isPrivate}, ${isMe})" style="background-color: #E0C5D9; text-decoration: none; display: inline-block; text-align: center;">
+                <button class="btn btn-primary" onclick="triggerStats(${form.id}, ${isPrivate}, ${isMe})" style="background-color: #C38EB5; text-decoration: none; display: inline-block; text-align: center;">
                     View Stats
                 </button>
                 </div>

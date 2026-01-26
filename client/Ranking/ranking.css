@@ -1,43 +1,95 @@
-table{
-    padding-top: 3px;
-    margin-top: 1vh;
-    border: 1px solid 'black';
-    font-size: 5m;
-    display: flex;
-    justify-content: center;
-}
-
-.histogram-wrapper{
+.histogram-wrapper {
     width: fit-content;
     margin: 30px auto;
 }
 
-.table-class{
+.table-class {
     width: 100%;
     justify-content: left;
 }
 
-.td1{
+.td1 {
     width: 3vw;
     text-align: left;
 }
 
-.td2{
+.td2 {
     width: 10vw;
     text-align: left;
 }
 
-.td-results{
+.td-results {
     background-color: #D98FBF;
 }
 
-.results{
+.results {
     height: 20px;
     background-color: #D98FBF;
     border-radius: 4px;
 }
 
-.td3{
+.td3 {
     width: 2vw;
     text-align: center;
+}
+
+.form-card table {
+    display: table;
+    margin-top: 0;
+}
+
+.results {
+    height: 100%;
+    background-color: var(--color-secondary);
+    border-radius: 4px;
+    transition: width 0.5s ease-in-out;
+}
+
+.ranking-container {
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    background-color: #f8f9fa;
+    min-height: calc(100vh - 12vh);
+}
+
+.leaderboard-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.leaderboard-table th {
+    text-align: left;
+    padding: 12px;
+    border-bottom: 2px solid var(--color-highlight);
+    color: var(--color-main);
+}
+
+.leaderboard-table td {
+    padding: 12px;
+    border-bottom: 1px solid #eee;
+}
+
+.current-user-row {
+    background-color: #fff9fb;
+    color: var(--color-secondary);
+}
+
+.bar-outer {
+    background: #eee;
+    border-radius: 4px;
+    height: 20px;
+    width: 100%;
+    overflow: hidden;
+    margin-top: 4px;
+}
+
+.bar-inner {
+    height: 100%;
+    background-color: var(--color-secondary);
+    border-radius: 4px;
+    transition: width 0.6s ease-out;
 }
