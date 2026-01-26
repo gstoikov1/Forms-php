@@ -329,6 +329,7 @@ if ($formId <= 0) {
             }
         }
 
+        console.log(answers);
         return {form_id: formIdOut, answers};
     }
 
