@@ -101,4 +101,65 @@ class Repository
         $pdo->commit();
     }
 
+    public static function getFormFilledCount(int $formId): int
+    {
+        $pdo = db();
+        $stmt = $pdo->prepare("SELECT count(*) FROM forms_filled WHERE form_id = ?");
+        $stmt->execute([$formId]);
+
+        return $stmt->fetchColumn();
+    }
+
+    public static function getQuestionAnswers($questionId): array
+    {
+        $pdo = db();
+        $stmt = $pdo->prepare("SELECT * from questions WHERE id = ?");
+        $stmt->execute([$questionId]);
+        if ($stmt->rowCount() === 0) {
+            return [];
+        }
+        $question = $stmt->fetch();
+        $type = $question['question_type'];
+        $result = [];
+        if ($type == "OPEN") {
+            $result = self::getOpenQuestionAnswers($questionId);
+        } elseif ($type == "SINGLE_CHOICE" or $type == "MULTI_CHOICE") {
+            $result = self::getChoiceQuestionAnswers($questionId);
+        }
+
+        return $result;
+    }
+
+    private static function getOpenQuestionAnswers(int $questionId): array
+    {
+        $pdo = db();
+        $stmt = $pdo->prepare("SELECT response_text FROM responses_open_questions WHERE question_id = ?");
+        $stmt->execute([$questionId]);
+        $result = [];
+        while ($row = $stmt->fetch()) {
+            $result[] = $row['response_text'];
+        }
+
+        return $result;
+    }
+
+    private static function getChoiceQuestionAnswers($questionId): array
+    {
+        $pdo = db();
+        $stmt = $pdo->prepare("SELECT id, option_text, option_order FROM question_options WHERE question_id = ? ORDER BY id ASC");
+        $stmt->execute([$questionId]);
+        $result = [];
+        while ($row = $stmt->fetch()) {
+            $currentOptionId = $row['id'];
+            $currentOptionChosenCountStmt = $pdo->prepare("SELECT count(*) FROM responses_choice_questions WHERE question_id = ? AND option_id = ?");
+            $currentOptionChosenCountStmt->execute([$questionId, $currentOptionId]);
+            $result[$row['option_order']] = [
+                'text' => $row['option_text'],
+                'responsesCount' => $currentOptionChosenCountStmt->fetchColumn()
+            ];
+        }
+
+        return $result;
+    }
+
 }

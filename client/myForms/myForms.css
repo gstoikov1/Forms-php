@@ -1,0 +1,26 @@
+.forms-list{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.form-card{
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0,0,0,.1);
+}
+
+.form-card h3 {
+    margin: 0 0 8px 0;
+}
+
+.form-meta{
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 12px;
+}
+
+.form-actions a, .form-actions button{
+    margin-right: 10px;
+}
