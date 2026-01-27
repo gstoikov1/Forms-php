@@ -3,6 +3,11 @@ declare(strict_types=1);
 
 require_once __DIR__ . "/../FormUtils.php";
 
+
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 $formId = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 if ($formId <= 0) {
     http_response_code(400);
@@ -17,12 +22,12 @@ if (!$data) {
     exit(json_encode("Not Found"));
 }
 
-//if ($_SESSION['user_id'] != $data['form']['owner_id']) {
-//    http_response_code(403);
-//    exit(json_encode("Forbidden"));
-//}
+if ($_SESSION['user_id'] != $data['form']['owner_id']) {
+    http_response_code(403);
+    exit(json_encode("Forbidden"));
+}
 
-//http_response_code(200);
+http_response_code(200);
 $result = [];
 $result["formId"] = $formId;
 $result["name"] = $data["form"]["name"];
