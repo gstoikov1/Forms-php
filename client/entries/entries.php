@@ -21,7 +21,7 @@
         <h1 id="formName" class="project-title" style="margin-left: 15px;">Form Statistics</h1>
     </div>
     <div class="header-right">
-        <a href="/forms/client/dashboard/dashboard.php" class="btn btn-secondary">Back</a>
+        <a href="/forms/client/dashboard/dashboard.php" class="btn btn-secondary">Back to dashboard</a>
     </div>
 </header>
 
