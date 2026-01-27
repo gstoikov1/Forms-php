@@ -142,7 +142,8 @@ foreach ($histogramUsers as $u){
     </main>
 
     <footer class="main-footer" style="text-align: center; padding: 20px; color: #888; font-size: 14px;">
-        &copy; <?= date('Y') ?> Mockingbird Forms.
+        <span>&copy; <?= date('Y') ?> Mockingbird Forms.</span>
+        <span>Created by Veneta, Gabriel, Petar</span>
     </footer>
 
 </body>

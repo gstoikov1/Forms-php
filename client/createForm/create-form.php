@@ -88,6 +88,11 @@ require_login();
     </main>
 </div>
 
+<footer class="main-footer" style="text-align: center; padding: 20px; color: #888; font-size: 14px;">
+        <span>&copy; <?= date('Y') ?> Mockingbird Forms.</span>
+        <span>Created by Veneta, Gabriel, Petar</span>
+    </footer>
+
 <script>
     const questionsEl = document.getElementById('questions');
     const formNameEl = document.getElementById('formName');

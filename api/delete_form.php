@@ -19,7 +19,6 @@ if ($formId <= 0) {
 
 $pdo = db();
 
-// Проверка дали текущият потребител е собственик
 $stmt = $pdo->prepare("SELECT owner_id FROM forms WHERE id = ?");
 $stmt->execute([$formId]);
 $form = $stmt->fetch();
@@ -36,7 +35,6 @@ if ((int)$form['owner_id'] !== (int)$userId) {
     exit;
 }
 
-// Изтриване
 $stmt = $pdo->prepare("DELETE FROM forms WHERE id = ?");
 $stmt->execute([$formId]);
 

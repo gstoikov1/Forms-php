@@ -41,17 +41,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
 <div class="page-container">
-
-<!--  <div class="clover">
-                                      <div class="img1">gdfg</div>
-                                      <div class="img2">dgd</div>
-                                      <div class="img3">dgd</div>
-                                      <div class="img4">dgdgd</div>
-                                    </div>-->
-
-
-
-
     <div class="login-card">
 
 <table width="100%">
@@ -83,7 +72,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             Not a member? <span>Sign up now</span>
         </a>
     </div>
+
+    
 </div>
+<footer class="main-footer" style="text-align: center; padding: 20px; color: #888; font-size: 14px;">
+        <span>&copy; <?= date('Y') ?> Mockingbird Forms.</span>
+        <span>Created by Veneta, Gabriel, Petar</span>
+    </footer>
 
 </body>
 </html>

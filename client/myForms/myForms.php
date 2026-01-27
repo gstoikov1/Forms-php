@@ -17,6 +17,7 @@ require_login();
 </head>
 
 <body>
+<div class="page-container">
 <div class="dashboard-wrapper">
     <header class="main-header">
         <div class="header-left">
@@ -37,6 +38,11 @@ require_login();
         <div id="formsList" class="forms-list"></div>
     </main>
 </div>
+</div>
+    <footer class="main-footer" style="text-align: center; padding: 20px; color: #888; font-size: 14px;">
+        <span>&copy; <?= date('Y') ?> Mockingbird Forms.</span>
+        <span>Created by Veneta, Gabriel, Petar</span>
+    </footer>
 
 <script>
 

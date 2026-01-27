@@ -37,7 +37,7 @@
   --font-weight-semibold: 600;
   --font-weight-bold: 700;
 
-  --card-max-width: 400px;
+  --card-max-width: 500px;
 }
 
 body, html {
@@ -50,8 +50,22 @@ body, html {
 
 .page-container {
   background-color: var(--color-highlight);
-  min-height: 100vh;
+  min-height:calc( 100vh - 80px);
   width: 100%;
   display: flex;
   box-sizing: border-box;
+}
+
+.main-footer {
+    max-height: 36px;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-10);
+    text-align: center;
+    padding: 24px;
+    color: #888;
+    font-size: 0.9rem;
+    border-top: 1px solid #eaeaea;
+    background-color: var(--color-white);
+    margin-top: auto;
 }

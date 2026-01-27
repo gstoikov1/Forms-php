@@ -52,7 +52,6 @@
     align-items: center;
     gap: 30px;
     background-color: #f8f9fa;
-    min-height: calc(100vh - 12vh);
 }
 
 .leaderboard-table {

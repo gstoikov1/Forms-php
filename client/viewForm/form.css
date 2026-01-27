@@ -11,7 +11,7 @@
 
 #codeGate {
     display: flex;
-     align-items: center;
+    align-items: center;
     justify-content: center;
     width: 100%;
     height: 100%;
@@ -108,14 +108,4 @@ label.option-label input {
     font-size: 0.9rem;
     margin-top: 8px;
     min-height: 20px;
-}
-
-.main-footer {
-    text-align: center;
-    padding: 24px;
-    color: #888;
-    font-size: 0.9rem;
-    border-top: 1px solid #eaeaea;
-    background-color: var(--color-white);
-    margin-top: auto;
 }

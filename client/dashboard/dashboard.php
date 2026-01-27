@@ -54,6 +54,11 @@ require_login();
 </div>
 </div>
 
+<footer class="main-footer" style="text-align: center; padding: 20px; color: #888; font-size: 14px;">
+        <span>&copy; <?= date('Y') ?> Mockingbird Forms.</span>
+        <span>Created by Veneta, Gabriel, Petar</span>
+    </footer>
+
 <script>
     const CURRENT_USER = <?= json_encode($_SESSION['username']) ?>;
     const formsSection = document.querySelector('#Forms');
@@ -124,11 +129,11 @@ require_login();
                 </div>
 
                 <div class="form-actions">
-                    <a href="/forms/client/viewForm/form.php?id=${form.id}" class="btn btn-primary" style="background-color: #C38EB5; text-decoration: none; display: inline-block; text-align: center;">
+                    <a href="/forms/client/viewForm/form.php?id=${form.id}" class="btn btn-primary" style="text-decoration: none; display: inline-block; text-align: center;">
                     Fill form
                 </a>
                 
-                <button class="btn btn-primary" onclick="triggerStats(${form.id}, ${isPrivate}, ${isMe})" style="background-color: #C38EB5; text-decoration: none; display: inline-block; text-align: center;">
+                <button class="btn btn-primary" onclick="triggerStats(${form.id}, ${isPrivate}, ${isMe})" style="text-decoration: none; display: inline-block; text-align: center;">
                     View Stats
                 </button>
                 </div>

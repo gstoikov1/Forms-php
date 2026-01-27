@@ -72,8 +72,9 @@ if ($formId <= 0) {
 
     </main>
 
-    <footer class="main-footer">
-        &copy; <?= date('Y') ?> Mockingbird Forms. All rights reserved.
+    <footer class="main-footer" style="text-align: center; padding: 20px; color: #888; font-size: 14px;">
+        <span>&copy; <?= date('Y') ?> Mockingbird Forms.</span>
+        <span>Created by Veneta, Gabriel, Petar</span>
     </footer>
 </div>
 
