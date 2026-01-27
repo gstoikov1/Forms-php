@@ -68,17 +68,8 @@ require_login();
 
             <section class="builder-section">
                 <h2>Finalize & Save</h2>
-                <p class="builder-footer-info">
-                    Review your JSON payload below before saving to the database.
-                </p>
-                
-                <div class="builder-footer-actions">
-                    <button id="buildJsonBtn" type="button" class="btn btn-primary flex-2">Verify Form (Build JSON)</button>
-                    <button id="clearBtn" type="button" class="btn btn-secondary flex-1">Clear All</button>
-                </div>
-
                 <pre id="output">{}</pre>
-
+                <button id="clearBtn" type="button" class="btn btn-secondary" style="width: 100%; margin-top: var(--space-24); height: 50px; font-size: var(--font-size-lg);">Clear All</button>
                 <button id="saveFormBtn" type="button" class="btn btn-primary" style="width: 100%; margin-top: var(--space-24); height: 50px; font-size: var(--font-size-lg);">
                     Save Form to Database
                 </button>
@@ -109,7 +100,6 @@ require_login();
     });
 
     document.getElementById('addQuestionBtn').addEventListener('click', () => addQuestionCard());
-    document.getElementById('buildJsonBtn').addEventListener('click', () => buildJson());
     document.getElementById('saveFormBtn').addEventListener('click', () => {
         const payload = buildJson();
         if (payload) saveFormToBackend(payload);
@@ -271,9 +261,7 @@ require_login();
             form: { name, requires_code: requiresCode ? 1 : 0, code: requiresCode ? code : null },
             questions: questions.sort((a,b) => a.question_order - b.question_order)
         };
-
-        outputEl.textContent = JSON.stringify(payload, null, 2);
-        outputEl.style.borderColor = "#ccc";
+        outputEl.textContent = "{}"
         return payload;
     }
 

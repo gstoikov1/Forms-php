@@ -38,6 +38,7 @@ require_login();
         <div id="formsList" class="forms-list"></div>
     </main>
 </div>
+
 </div>
     <footer class="main-footer" style="text-align: center; padding: 20px; color: #888; font-size: 14px;">
         <span>&copy; <?= date('Y') ?> Mockingbird Forms.</span>
@@ -93,7 +94,7 @@ async function fetchMyForms(){
                 <div class="form-header">
                     <h3>${avoidXSSattacks(form.name)}</h3>
                     <div class="form-header-button">
-                    <button class="btn btn-primary exportbtn" onclick="triggerExport(${form.id}, ${isPrivate}, ${isMe})" style="background-color: #C38EB5; text-decoration: none; display: inline-block; text-align: center;">
+                    <button class="btn btn-primary exportbtn" onclick="triggerExport(${form.id})" style="background-color: #C38EB5; text-decoration: none; display: inline-block; text-align: center;">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                             <polyline points="7 10 12 15 17 10"></polyline>
@@ -105,18 +106,18 @@ async function fetchMyForms(){
                 </div>
 
                 <div class="form-meta">
-                    Created by <b>${avoidXSSattacks(form.owner)} ${isMe ? '(Me)' : ''}</b>
+                    Created by <b>${avoidXSSattacks(form.owner)} (Me)</b>
                     <br>
                     ${isPrivate ? '🔒 Private form' : '🌍 Public form'}
                     ${codeDisplay}
                 </div>
 
                 <div class="form-actions">
-                    <a href="/forms/client/viewForm/form.php?id=${form.id}" class="btn btn-primary" style="background-color: #C38EB5; text-decoration: none; display: inline-block; text-align: center;">
+                    <a href="/forms/client/viewForm/form.php?id=${form.id}" class="btn btn-primary" style="text-decoration: none; display: inline-block; text-align: center;">
                     Fill form
                 </a>
                 
-                <button class="btn btn-primary" onclick="triggerStats(${form.id}, ${isPrivate}, ${isMe})" style="background-color: #C38EB5; text-decoration: none; display: inline-block; text-align: center;">
+                <button class="btn btn-primary" onclick="triggerStats(${form.id})" style="text-decoration: none; display: inline-block; text-align: center;">
                     View Stats
                 </button>
                 </div>
@@ -144,23 +145,13 @@ window.triggerDelete = async (id, name, btn) => {
         }
     };
 
-    window.triggerExport = (id, isPrivate, isMe) => {
-        handleProtectedNav(`/forms/api/export_form_entries.php?id=${id}`, id, isPrivate, isMe);
+    window.triggerExport = (id) => {
+        window.location.href = `/forms/api/export_form_entries.php?id=${id}`;
     };
 
-    window.triggerStats = (id, isPrivate, isMe) => {
-        handleProtectedNav(`/forms/client/entries/entries.php?id=${id}`, id, isPrivate, isMe);
+    window.triggerStats = (id) => {
+        window.location.href = `/forms/client/entries/entries.php?id=${id}`;
     };
-
-    function handleProtectedNav(url, formId, isPrivate, isMe) {
-        if (isMe || !isPrivate) {
-            window.location.href = url;
-        } else {
-            pendingAction = { url, formId };
-            openModal();
-        }
-    }
-
 
 function avoidXSSattacks(str) {
     if (!str) return '';
