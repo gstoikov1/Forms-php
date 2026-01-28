@@ -32,7 +32,7 @@ if ($formId <= 0) {
             <h1 class="project-title">Mockingbird Forms</h1>
         </div>
         <div class="header-right">
-            <a href="/forms/client/allForms/allForms.php" class="btn btn-secondary">Back to Forms List</a>
+            <a href="/forms/client/myForms/myForms.php" class="btn btn-secondary">Back to Forms List</a>
         </div>
     </header>
 

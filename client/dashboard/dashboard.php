@@ -95,7 +95,9 @@ require_login();
             const card = document.createElement('div');
             card.className = 'form-card';
 
+
             let deleteBtnHtml = '';
+            /*
             if (isMe) {
                 deleteBtnHtml = `
                     <button class="deletebtn btn btn-primary" onclick="triggerDelete(${form.id}, '${avoidXSSattacks(form.name)}', this)" style="background-color: #C38EB5; text-decoration: none; display: inline-block; text-align: center;">
@@ -106,11 +108,12 @@ require_login();
                     </button>
                 `;
             }
-
+            */
             card.innerHTML = `
                 <div class="form-header">
                     <h3>${avoidXSSattacks(form.name)}</h3>
                     <div class="form-header-button">
+                    <!--
                     <button class="btn btn-primary exportbtn" onclick="triggerExport(${form.id}, ${isPrivate}, ${isMe})" style="background-color: #C38EB5; text-decoration: none; display: inline-block; text-align: center;">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
@@ -118,6 +121,7 @@ require_login();
                             <line x1="12" y1="15" x2="12" y2="3"></line>
                         </svg>
                     </button>
+                    -->
                       ${deleteBtnHtml}
                     </div>
                 </div>
@@ -132,11 +136,15 @@ require_login();
                     <a href="/forms/client/viewForm/form.php?id=${form.id}" class="btn btn-primary" style="text-decoration: none; display: inline-block; text-align: center;">
                     Fill form
                 </a>
-                
+
+                <!--
                 <button class="btn btn-primary" onclick="triggerStats(${form.id}, ${isPrivate}, ${isMe})" style="text-decoration: none; display: inline-block; text-align: center;">
                     View Stats
                 </button>
+                -->
                 </div>
+
+
             `;
 
             formsSection.appendChild(card);
@@ -166,8 +174,13 @@ require_login();
     };
 
     window.triggerStats = (id, isPrivate, isMe) => {
-        handleProtectedNav(`/forms/client/entries/entries.php?id=${id}`, id, isPrivate, isMe);
+       if (!isMe) {
+            alert('Only owner can view statistics.');
+            return;
+       }
+       handleProtectedNav(`/forms/client/entries/entries.php?id=${id}`, id, isPrivate, isMe);
     };
+
 
     function handleProtectedNav(url, formId, isPrivate, isMe) {
         if (isMe || !isPrivate) {

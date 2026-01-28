@@ -23,6 +23,7 @@ require_login();
         <div class="header-left">
             <a href = "/forms/client/dashboard/dashboard.php"><div class="mockingbird" style="transform: scaleX(-1); height: 49px; margin-right: 0; padding-right: 0"></div></a>
             <h1 class="project-title">Mockingbird Forms</h1>
+            <a href="/forms/client/createForm/create-form.php" class="btn btn-secondary">Create Form</a>
         </div>
 
         <div class="header-right">
