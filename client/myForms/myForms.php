@@ -9,11 +9,11 @@ require_login();
     <meta charset="utf-8">
     <title>My Forms</title>
 
-    <link rel="stylesheet" href="/forms/client/index.css">
-    <link rel="stylesheet" href="/forms/client/button.css">
-    <link rel="stylesheet" href="/forms/client/dashboard/dashboard.css">
-    <link rel="stylesheet" href="/forms/client/pill.css">
-    <link rel="stylesheet" href="/forms/client/bird.css">
+    <link rel="stylesheet" href="../index.css">
+    <link rel="stylesheet" href="../button.css">
+    <link rel="stylesheet" href="../dashboard/dashboard.css">
+    <link rel="stylesheet" href="../pill.css">
+    <link rel="stylesheet" href="../bird.css">
 </head>
 
 <body>
@@ -21,12 +21,13 @@ require_login();
 <div class="dashboard-wrapper">
     <header class="main-header">
         <div class="header-left">
-            <a href = "/forms/client/dashboard/dashboard.php"><div class="mockingbird" style="transform: scaleX(-1); height: 49px; margin-right: 0; padding-right: 0"></div></a>
+            <a href = "../dashboard/dashboard.php"><div class="mockingbird" style="transform: scaleX(-1); height: 49px; margin-right: 0; padding-right: 0"></div></a>
             <h1 class="project-title">Mockingbird Forms</h1>
+            <a href="../createForm/create-form.php" class="btn btn-secondary">Create Form</a>
         </div>
 
         <div class="header-right">
-            <a href="/forms/client/dashboard/dashboard.php" class="btn btn-secondary">
+            <a href="../dashboard/dashboard.php" class="btn btn-secondary">
                 Back to Dashboard
             </a>
         </div>
@@ -50,10 +51,10 @@ require_login();
     const CURRENT_USER = <?= json_encode($_SESSION['username']) ?>;
 
 async function fetchMyForms(){
-    const res = await fetch('/forms/api/my_forms.php');
+    const res = await fetch('../../api/my_forms.php');
 
     if (res.status === 401) {
-        window.location.href = '/forms/client/loginPage/login.php';
+        window.location.href = '../loginPage/login.php';
         return [];
     }
 
@@ -113,7 +114,7 @@ async function fetchMyForms(){
                 </div>
 
                 <div class="form-actions">
-                    <a href="/forms/client/viewForm/form.php?id=${form.id}" class="btn btn-primary" style="text-decoration: none; display: inline-block; text-align: center;">
+                    <a href="../viewForm/form.php?id=${form.id}" class="btn btn-primary" style="text-decoration: none; display: inline-block; text-align: center;">
                     Fill form
                 </a>
                 
@@ -130,7 +131,7 @@ async function fetchMyForms(){
 window.triggerDelete = async (id, name, btn) => {
         if (!confirm(`Are you sure you want to delete "${name}"?`)) return;
         try {
-            const res = await fetch('/forms/api/delete_form.php', {
+            const res = await fetch('../../api/delete_form.php', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({ form_id: id })
@@ -146,11 +147,11 @@ window.triggerDelete = async (id, name, btn) => {
     };
 
     window.triggerExport = (id) => {
-        window.location.href = `/forms/api/export_form_entries.php?id=${id}`;
+        window.location.href = `../../api/export_form_entries.php?id=${id}`;
     };
 
     window.triggerStats = (id) => {
-        window.location.href = `/forms/client/entries/entries.php?id=${id}`;
+        window.location.href = `../entries/entries.php?id=${id}`;
     };
 
 function avoidXSSattacks(str) {

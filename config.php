@@ -1,5 +1,5 @@
 <?php
-declare(strict_types=1);
+
 
 $envPath = __DIR__ . '/.env';
 
@@ -47,13 +47,12 @@ function db(): PDO
     try {
         $pdo = new PDO($dsn, $user, $pass, [
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
             PDO::ATTR_EMULATE_PREPARES => false,
         ]);
     } catch (PDOException $e) {
         error_log($e->getMessage());
 
-        throw new RuntimeException('Database unavailable');
+        throw new RuntimeException($e->getMessage());
     }
     createDefaultUser($pdo);
 

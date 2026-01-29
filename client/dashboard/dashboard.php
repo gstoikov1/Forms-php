@@ -7,11 +7,11 @@ require_login();
 <head>
     <meta charset="utf-8">
     <title>Dashboard</title>
-    <link rel="stylesheet" href="/forms/client/index.css">
-    <link rel="stylesheet" href="/forms/client/pill.css">
-    <link rel="stylesheet" href="/forms/client/button.css">
-    <link rel="stylesheet" href="/forms/client/dashboard/dashboard.css">
-    <link rel="stylesheet" href="/forms/client/bird.css">
+    <link rel="stylesheet" href="../index.css">
+    <link rel="stylesheet" href="../pill.css">
+    <link rel="stylesheet" href="../button.css">
+    <link rel="stylesheet" href="../dashboard/dashboard.css">
+    <link rel="stylesheet" href="../bird.css">
 </head>
 <body>
 <div class="page-container">
@@ -20,17 +20,17 @@ require_login();
         <div class="header-left">
             <div class="mockingbird" style="transform: scaleX(-1); height: 49px; margin-right: 0; padding-right: 0"></div>
             <h1 class="project-title">Mockingbird Forms</h1>
-            <a href="/forms/client/createForm/create-form.php" class="btn btn-secondary">Create Form</a>
-            <a href="/forms/client/myForms/myForms.php" class="btn btn-secondary">My Forms</a>
+            <a href="../createForm/create-form.php" class="btn btn-secondary">Create Form</a>
+            <a href="../myForms/myForms.php" class="btn btn-secondary">My Forms</a>
         </div>
 
         <div class="header-left">
-            <a href="/forms/client/ranking/ranking.php" class="btn btn-secondary">User Ranking</a>
+            <a href="../ranking/ranking.php" class="btn btn-secondary">User Ranking</a>
         </div>
         
         <div class="header-right">
             <span>Welcome, <strong><?= htmlspecialchars($_SESSION['username'] ?? 'User') ?></strong></span>
-            <a href="/forms/logout.php" class="btn btn-secondary">Logout</a>
+            <a href="../../logout.php" class="btn btn-secondary">Logout</a>
         </div>
     </header>
 
@@ -71,9 +71,9 @@ require_login();
     let pendingAction = null; 
 
     async function fetchForms() {
-        const res = await fetch('/forms/api/all_forms.php');
+        const res = await fetch('../../api/all_forms.php');
         if (res.status === 401) {
-            window.location.href = '/forms/client/loginPage/login.php';
+            window.location.href = '../loginPage/login.php';
             return [];
         }
         const data = await res.json();
@@ -95,7 +95,9 @@ require_login();
             const card = document.createElement('div');
             card.className = 'form-card';
 
+
             let deleteBtnHtml = '';
+            /*
             if (isMe) {
                 deleteBtnHtml = `
                     <button class="deletebtn btn btn-primary" onclick="triggerDelete(${form.id}, '${avoidXSSattacks(form.name)}', this)" style="background-color: #C38EB5; text-decoration: none; display: inline-block; text-align: center;">
@@ -106,11 +108,12 @@ require_login();
                     </button>
                 `;
             }
-
+            */
             card.innerHTML = `
                 <div class="form-header">
                     <h3>${avoidXSSattacks(form.name)}</h3>
                     <div class="form-header-button">
+                    <!--
                     <button class="btn btn-primary exportbtn" onclick="triggerExport(${form.id}, ${isPrivate}, ${isMe})" style="background-color: #C38EB5; text-decoration: none; display: inline-block; text-align: center;">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
@@ -118,6 +121,7 @@ require_login();
                             <line x1="12" y1="15" x2="12" y2="3"></line>
                         </svg>
                     </button>
+                    -->
                       ${deleteBtnHtml}
                     </div>
                 </div>
@@ -129,14 +133,18 @@ require_login();
                 </div>
 
                 <div class="form-actions">
-                    <a href="/forms/client/viewForm/form.php?id=${form.id}" class="btn btn-primary" style="text-decoration: none; display: inline-block; text-align: center;">
+                    <a href="../viewForm/form.php?id=${form.id}" class="btn btn-primary" style="text-decoration: none; display: inline-block; text-align: center;">
                     Fill form
                 </a>
-                
+
+                <!--
                 <button class="btn btn-primary" onclick="triggerStats(${form.id}, ${isPrivate}, ${isMe})" style="text-decoration: none; display: inline-block; text-align: center;">
                     View Stats
                 </button>
+                -->
                 </div>
+
+
             `;
 
             formsSection.appendChild(card);
@@ -146,7 +154,7 @@ require_login();
     window.triggerDelete = async (id, name, btn) => {
         if (!confirm(`Are you sure you want to delete "${name}"?`)) return;
         try {
-            const res = await fetch('/forms/api/delete_form.php', {
+            const res = await fetch('../../api/delete_form.php', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({ form_id: id })
@@ -162,12 +170,17 @@ require_login();
     };
 
     window.triggerExport = (id, isPrivate, isMe) => {
-        handleProtectedNav(`/forms/api/export_form_entries.php?id=${id}`, id, isPrivate, isMe);
+        handleProtectedNav(`../../api/export_form_entries.php?id=${id}`, id, isPrivate, isMe);
     };
 
     window.triggerStats = (id, isPrivate, isMe) => {
-        handleProtectedNav(`/forms/client/entries/entries.php?id=${id}`, id, isPrivate, isMe);
+       if (!isMe) {
+            alert('Only owner can view statistics.');
+            return;
+       }
+       handleProtectedNav(`../entries/entries.php?id=${id}`, id, isPrivate, isMe);
     };
+
 
     function handleProtectedNav(url, formId, isPrivate, isMe) {
         if (isMe || !isPrivate) {
@@ -202,7 +215,7 @@ require_login();
         modalConfirm.textContent = "Verifying...";
 
         try {
-            const res = await fetch('/forms/api/verify_form_code.php', {
+            const res = await fetch('../../api/verify_form_code.php', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({ form_id: pendingAction.formId, code })

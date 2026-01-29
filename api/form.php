@@ -1,8 +1,8 @@
 <?php
-declare(strict_types=1);
+
 
 require_once __DIR__ . '/../session.php';
-require_once __DIR__ . '/../Repository.php';
+require_once __DIR__ . '/../repository.php';
 
 header('Content-Type: application/json');
 

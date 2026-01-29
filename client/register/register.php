@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/../../config.php';
 require_once __DIR__ . '/../../session.php';
-require_once __DIR__ . '/../../Repository.php';
+require_once __DIR__ . '/../../repository.php';
 $error = '';
 $errors = [];
 
@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['user_id'] = $res;
             $_SESSION['username'] = $username;
             session_regenerate_id(true);
-            header("Location: /forms/client/dashboard/dashboard.php");
+            header("Location: ../dashboard/dashboard.php");
             exit;
         } elseif ($res == -1) {
             $error = "Internal Server Error";
@@ -64,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
       session_regenerate_id(true);
 
-      header("Location: /forms/client/dashboard/dashboard.php");
+      header("Location: ../dashboard/dashboard.php");
       exit;
     } else if ($res == -1) {
         $error = "Internal Server Error";
@@ -85,10 +85,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="utf-8">
     <title>Register - PuffinForms</title>
-    <link rel="stylesheet" href="/forms/client/index.css">
-    <link rel="stylesheet" href="/forms/client/button.css">
-    <link rel="stylesheet" href="/forms/client/error.css">
-    <link rel="stylesheet" href="/forms/client/register/register.css">
+    <link rel="stylesheet" href="../index.css">
+    <link rel="stylesheet" href="../button.css">
+    <link rel="stylesheet" href="../error.css">
+    <link rel="stylesheet" href="../register/register.css">
 </head>
 <body>
 
@@ -135,7 +135,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <button type="submit" class="btn btn-primary">Create Account</button>
         </form>
 
-        <a href="/forms/client/login/login.php" class="login-link">
+        <a href="../login/login.php" class="login-link">
             Already have an account? <span>Login</span>
         </a>
     </div>

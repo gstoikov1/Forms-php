@@ -10,22 +10,22 @@ require_login();
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Create Form</title>
     
-    <link rel="stylesheet" href="/forms/client/index.css">
-    <link rel="stylesheet" href="/forms/client/button.css">
-    <link rel="stylesheet" href="/forms/client/dashboard/dashboard.css">
-    <link rel="stylesheet" href="/forms/client/createForm/create-form.css">
-    <link rel="stylesheet" href="/forms/client/bird.css">
+    <link rel="stylesheet" href="../index.css">
+    <link rel="stylesheet" href="../button.css">
+    <link rel="stylesheet" href="../dashboard/dashboard.css">
+    <link rel="stylesheet" href="../createForm/create-form.css">
+    <link rel="stylesheet" href="../bird.css">
 </head>
 <body>
 
 <div class="dashboard-wrapper">
     <header class="main-header">
         <div class="header-left">
-            <a href = "/forms/client/dashboard/dashboard.php"><div class="mockingbird" style="transform: scaleX(-1); height: 49px; margin-right: 0; padding-right: 0"></div></a>
+            <a href = "../dashboard/dashboard.php"><div class="mockingbird" style="transform: scaleX(-1); height: 49px; margin-right: 0; padding-right: 0"></div></a>
             <h1 class="project-title">Mockingbird Forms</h1>
         </div>
         <div class="header-right">
-            <a href="/forms/client/dashboard/dashboard.php" class="btn btn-secondary">Back to Dashboard</a>
+            <a href="../dashboard/dashboard.php" class="btn btn-secondary">Back to Dashboard</a>
         </div>
     </header>
 
@@ -271,13 +271,13 @@ require_login();
         statusEl.style.color = "var(--color-main)";
 
         try {
-            const res = await fetch('/forms/api/create_form.php', {
+            const res = await fetch('../../api/create_form.php', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
             });
 
-            if (res.status === 401) { window.location.href = '/forms/client/loginPage/login.php'; return; }
+            if (res.status === 401) { window.location.href = '../loginPage/login.php'; return; }
 
             const data = await res.json();
             if (!res.ok) {
@@ -286,7 +286,7 @@ require_login();
             } else {
                 statusEl.textContent = 'Success! Form Created ID: ' + data.form_id;
                 statusEl.style.color = "var(--color-success)";
-                setTimeout(() => window.location.href = '/forms/client/dashboard/dashboard.php', 2000);
+                setTimeout(() => window.location.href = '../dashboard/dashboard.php', 2000);
             }
         } catch (err) {
             statusEl.textContent = 'Network error. Please check XAMPP.';
