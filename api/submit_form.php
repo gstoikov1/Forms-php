@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/../Repository.php';
+require_once __DIR__ . '/../repository.php';
 
 header('Content-Type: application/json');
 // It's generally better to log errors than to suppress them entirely, 

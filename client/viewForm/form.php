@@ -14,25 +14,25 @@ if ($formId <= 0) {
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Form View</title>
     
-    <link rel="stylesheet" href="/forms/client/index.css">
-    <link rel="stylesheet" href="/forms/client/button.css">
-    <link rel="stylesheet" href="/forms/client/bird.css">
-    <link rel="stylesheet" href="/forms/client/dashboard/dashboard.css">
-    <link rel="stylesheet" href="/forms/client/login/login.css"> 
-    <link rel="stylesheet" href="/forms/client/viewForm/form.css">
+    <link rel="stylesheet" href="../index.css">
+    <link rel="stylesheet" href="../button.css">
+    <link rel="stylesheet" href="../bird.css">
+    <link rel="stylesheet" href="../dashboard/dashboard.css">
+    <link rel="stylesheet" href="../login/login.css"> 
+    <link rel="stylesheet" href="../viewForm/form.css">
 </head>
 <body>
 
 <div class="dashboard-wrapper">
     <header class="main-header">
         <div class="header-left">
-            <a href="/forms/client/dashboard/dashboard.php">
+            <a href="../dashboard/dashboard.php">
                 <div class="mockingbird" style="transform: scaleX(-1); height: 49px; margin-right: 0; padding-right: 0"></div>
             </a>
             <h1 class="project-title">Mockingbird Forms</h1>
         </div>
         <div class="header-right">
-            <a href="/forms/client/myForms/myForms.php" class="btn btn-secondary">Back to Forms List</a>
+            <a href="../myForms/myForms.php" class="btn btn-secondary">Back to Forms List</a>
         </div>
     </header>
 
@@ -105,10 +105,10 @@ if ($formId <= 0) {
         loadingStatusEl.textContent = 'Loading form...';
         
         try {
-            const res = await fetch(`/forms/api/form.php?id=${formId}`);
+            const res = await fetch(`../../api/form.php?id=${formId}`);
 
             if (res.status === 401) {
-                window.location.href = '/forms/client/loginPage/login.php';
+                window.location.href = '../loginPage/login.php';
                 return;
             }
 
@@ -162,7 +162,7 @@ if ($formId <= 0) {
         codeMsgEl.style.color = '#666';
 
         try {
-            const res = await fetch('/forms/api/verify_form_code.php', {
+            const res = await fetch('../../api/verify_form_code.php', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({form_id: formId, code})
@@ -274,7 +274,7 @@ if ($formId <= 0) {
             submitBtnEl.textContent = 'Submitting...';
             submitBtnEl.disabled = true;
 
-            const res = await fetch('/forms/api/submit_form.php', {
+            const res = await fetch('../../api/submit_form.php', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify(payload),
@@ -290,7 +290,7 @@ if ($formId <= 0) {
             submitBtnEl.textContent = 'Submitted';
             
             setTimeout(() => {
-                window.location.href = '/forms/client/dashboard/dashboard.php';
+                window.location.href = '../dashboard/dashboard.php';
             }, 1500);
 
         } catch (err) {

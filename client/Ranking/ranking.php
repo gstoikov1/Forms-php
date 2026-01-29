@@ -57,24 +57,24 @@ foreach ($histogramUsers as $u){
 <head>
     <meta charset="utf-8">
     <title>Ranking - Mockingbird Forms</title>
-    <link rel="stylesheet" href="/forms/client/index.css">
-    <link rel="stylesheet" href="/forms/client/button.css">
-    <link rel="stylesheet" href="/forms/client/dashboard/dashboard.css">
-    <link rel="stylesheet" href="/forms/client/ranking/ranking.css">
-    <link rel="stylesheet" href="/forms/client/pill.css"> 
-    <link rel="stylesheet" href="/forms/client/bird.css">
+    <link rel="stylesheet" href="../index.css">
+    <link rel="stylesheet" href="../button.css">
+    <link rel="stylesheet" href="../dashboard/dashboard.css">
+    <link rel="stylesheet" href="../ranking/ranking.css">
+    <link rel="stylesheet" href="../pill.css"> 
+    <link rel="stylesheet" href="../bird.css">
 </head>
 <body>
 
     <header class="main-header">
         <div style="display: flex; align-items: center; flex-grow: 1;">
-            <a href="/forms/client/dashboard/dashboard.php">
+            <a href="../dashboard/dashboard.php">
                 <div class="mockingbird" style="transform: scaleX(-1); height: 49px;"></div>
             </a>
             <h1 class="project-title" style="margin-left: 15px;">User Ranking</h1>
         </div>
         <div class="header-right">
-            <a href="/forms/client/dashboard/dashboard.php" class="btn btn-secondary">Back to Dashboard</a>
+            <a href="../dashboard/dashboard.php" class="btn btn-secondary">Back to Dashboard</a>
         </div>
     </header>
 
